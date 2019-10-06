@@ -15,6 +15,25 @@
   </div>
 </template>
 
+<script>
+export default {
+  head() {
+    let title = "About my SSR blog",
+      descr = "My SSR blog",
+      type = "site";
+    return {
+      title: title,
+      meta: [
+        { hid: "og:title", name: "og:title", content: title },
+        { hid: "description", name: "description", content: descr },
+        { hid: "og:description", name: "og:description", content: descr },
+        { hid: "og:type", name: "og:type", content: type }
+      ]
+    };
+  }
+};
+</script>
+
 <style lang="scss" scoped>
 .about {
   text-align: center;

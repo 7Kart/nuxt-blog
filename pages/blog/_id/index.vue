@@ -18,6 +18,22 @@ export default {
     newComment,
     comments
   },
+  head() {
+    let title = this.post.title,
+      descr = this.post.description,
+      type = "article",
+      img = this.post.title;
+    return {
+      title: title,
+      meta: [
+        { hid: "og:title", name: "og:title", content: title },
+        { hid: "description", name: "description", content: descr },
+        { hid: "og:description", name: "og:description", content: descr },
+        { hid: "og:type", name: "og:type", content: type },
+        { hid: 'og:img', name: "og:img", content: img}
+      ]
+    };
+  },
   async asyncData(context) {
     let [post, comments] = await Promise.all([
       axios.get(
@@ -27,7 +43,7 @@ export default {
     ]);
 
     let commentsRes = Object.values(comments.data).filter(
-      comment => (comment.postId == context.params.id && comment.publish == true)
+      comment => comment.postId == context.params.id && comment.publish == true
     );
 
     return {

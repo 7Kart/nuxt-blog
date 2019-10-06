@@ -13,8 +13,8 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: "https://fonts.googleapis.com/css?family=Montserrat"}
-      
+      { rel: 'stylesheet', href: "https://fonts.googleapis.com/css?family=Montserrat" }
+
     ]
   },
   /*
@@ -25,7 +25,7 @@ export default {
   ** Global CSS
   */
   css: [{
-    src:'~/assets/scss/main',
+    src: '~/assets/scss/main',
     lang: 'scss'
   }],
   /*
@@ -43,6 +43,12 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    ['@nuxtjs/google-analytics', {
+      id: 'key'
+    }],
+    ['@nuxtjs/yandex-metrika', {
+      id: ''
+    }]
   ],
   /*
   ** Build configuration
@@ -51,7 +57,12 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    vendor: [
+      'vue',
+      'axios'
+    ],
+    
+    extend(config, ctx) {
     }
   }
 }
