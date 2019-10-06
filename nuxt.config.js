@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 export default {
   mode: 'universal',
@@ -21,6 +22,20 @@ export default {
   ** Customize the progress-bar color
   */
   loading: { color: '#fff' },
+  generate: {
+    routes: function () {
+      return axios.get('https://fbtest-228.firebaseio.com/posts.json')
+        .then((res) => {
+          const postsArray = []
+          for (let key in res.data) {
+            postsArray.push({ ...res.data[key], id: key });
+          }
+          return postsArray.map(post => `\blog\${post.id}`);
+        }).catch(err => {
+          console.log("error query", err)
+        })
+    }
+  },
   /*
   ** Global CSS
   */
@@ -61,7 +76,7 @@ export default {
       'vue',
       'axios'
     ],
-    
+
     extend(config, ctx) {
     }
   }
