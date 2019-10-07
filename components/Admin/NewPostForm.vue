@@ -6,17 +6,26 @@
                 <AppInput v-model="post.description"> Description: </AppInput>
                 <AppInput v-model="post.img"> Image link: </AppInput>
                 <AppTextArea v-model="post.content"> Content: </AppTextArea>
+                <vueMarkdown :source="testString"> </vueMarkdown>
                 <div class="controls">
                     <div class="btn btnDanger" @click="cancel"> Cancel</div>
                     <AppButton> Save </AppButton>
                 </div>
+
+                <AppTextArea v-model="testString"> test markdown: </AppTextArea>
             </form>
         </div>
     </section>
 </template>
 
 <script>
+
+import vueMarkdown from 'vue-markdown-v2';
+
 export default {
+    components:{
+        vueMarkdown
+    },
     props:{
         editPost:{
             type:Object           
@@ -24,6 +33,7 @@ export default {
     },
     data(){
         return{
+            testString: "~~tast~~ **test**",
             post: this.editPost ? this.editPost :{
                 title:'',
                 description:'',

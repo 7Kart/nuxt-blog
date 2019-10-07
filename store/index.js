@@ -32,7 +32,7 @@ export const mutations = {
 
 export const actions = {
     authUser({ commit }, authData) {
-        const key = '';
+        const key = ' ';
         return axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${key}`, {
             email: authData.email,
             password: authData.password,
