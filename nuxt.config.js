@@ -21,16 +21,20 @@ export default {
   /*
   ** Customize the progress-bar color
   */
+ transition:{
+   name: 'fade',
+   mode: 'out-in'
+ },
   loading: { color: '#fff' },
   generate: {
-    routes: function () {
+    routes() {
       return axios.get('https://fbtest-228.firebaseio.com/posts.json')
         .then((res) => {
-          const postsArray = []
+          const postsArray = [];
           for (let key in res.data) {
-            postsArray.push({ ...res.data[key], id: key });
+            postsArray.push(`/blog/${key}`);
           }
-          return postsArray.map(post => `\blog\${post.id}`);
+          return postsArray;
         }).catch(err => {
           console.log("error query", err)
         })

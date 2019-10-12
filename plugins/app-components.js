@@ -8,6 +8,7 @@ import AppMessage from "@/components/UI/Message";
 import PostsList from "@/components/blog/PostsList";
 import Intro from "@/components/UI/intro.vue";
 
+
 // ui
 Vue.component('Intro', Intro);
 Vue.component('AppMessage', AppMessage);

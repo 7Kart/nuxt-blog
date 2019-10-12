@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookie from 'js-cookie';
 
 export const state = () => ({
     postsLoaded: [],
@@ -22,27 +23,51 @@ export const mutations = {
     addComment(state, comment) {
         state.commentsLoaded.push(comment);
     },
-    setToken(state, token){
+    setToken(state, token) {
         state.token = token;
     },
-    destroyToken(state){
+    destroyToken(state) {
         state.token = null;
     }
 }
 
 export const actions = {
     authUser({ commit }, authData) {
-        const key = ' ';
+        const key = '';
         return axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${key}`, {
             email: authData.email,
             password: authData.password,
             returnSecureToken: true
         })
-        .then(res => commit('setToken', res.data.idToken))
-        .catch(e => console.log('euth err', e))
+            .then(res => {
+                let token = res.data.idToken
+                commit('setToken', token);
+                //to local storage
+                localStorage.setItem('token', token)
+                //to server
+                Cookie.set('jwt', token)
+            })
+            .catch(e => console.log('euth err', e))
     },
-    logoutUser({commit}){
+    initAuth({ commit }, req) {
+        let token;
+        if (req) {
+            if (!req.headers.cookie) return false;
+            const jwtCookie = req.headers.cookie
+                .split(';')
+                .find(t => t.trim().startsWith('jwt='))
+            if (!jwtCookie) return false;
+            token = jwtCookie.split('=')[1];
+        } else {
+            token = localStorage.getItem("token")
+            if (!token) return false;
+        }
+        commit('setToken', token);
+    },
+    logoutUser({ commit }) {
         commit('destroyToken');
+        localStorage.removeItem("token");
+        Cookie.remove('jwt');
     },
     nuxtServerInit({ commit }, context) {
         return axios.get('https://fbtest-228.firebaseio.com/posts.json')
@@ -85,7 +110,7 @@ export const getters = {
     getPostsLoaded(state) {
         return state.postsLoaded;
     },
-    checkAuthUser(state){
+    checkAuthUser(state) {
         return state.token != null;
     }
 }
