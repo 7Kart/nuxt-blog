@@ -8,8 +8,8 @@
         </div>
 
         <!-- body -->
-        <div class="post-body">
-          <p>{{post.content}}</p>
+        <div class="post-body">          
+          <VueMarkdown :source="post.content" class="result-mark-down"></VueMarkdown>
         </div>
 
       </div>

@@ -7,8 +7,8 @@
         <AppInput v-model="post.img">Image link:</AppInput>
         <div class="markdown-block-container">
           <p>Content</p>
-          <AppTextArea v-model="testString"></AppTextArea>
-          <vueMarkdown :source="testString" class="result-mark-down"></vueMarkdown>
+          <AppTextAreaResize v-model="post.content"></AppTextAreaResize>
+          <VueMarkdown :source="post.content" class="result-mark-down"></VueMarkdown>
         </div>
         <div class="controls">
           <div class="btn btnDanger" @click="cancel">Cancel</div>
@@ -20,12 +20,7 @@
 </template>
 
 <script>
-import vueMarkdown from "vue-markdown-v2";
-
 export default {
-  components: {
-    vueMarkdown
-  },
   props: {
     editPost: {
       type: Object
@@ -33,7 +28,6 @@ export default {
   },
   data() {
     return {
-      testString: "~~tast~~ **test**",
       post: this.editPost
         ? this.editPost
         : {
@@ -80,6 +74,7 @@ export default {
     width: 45%;
     overflow: hidden;
     word-break: break-all;
+    margin-bottom: 25px;
   }
 
   .result-mark-down{
